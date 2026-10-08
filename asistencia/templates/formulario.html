@@ -1,0 +1,9 @@
+{% block contenido %}
+<h2>{{ titulo }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-verde" type="submit">Guardar</button>
+    <a class="btn" href="{% url 'listar' %}">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencia</title>
+</head>
+<body>
+    {% block contenido %}
+    <a class="btn btn-verde" href="{% url 'crear' %}">+ Nuevo registro</a>
+    <br><br>
+    <table>
+        <tr>
+            <th>ID</th>
+        <th>Tipo doc.</th>
+        <th>Documento</th>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>WhatsApp</th>
+        <th>Fecha</th>
+        <th>Asistió</th>
+        <th>Acciones</th>
+    </tr>
+    {% for r in registros %}
+    <tr>
+        <td>{{ r.id }}</td>
+        <td>{{ r.tipo_documento }}</td>
+        <td>{{ r.documento }}</td>
+        <td>{{ r.nombres }}</td>
+        <td>{{ r.apellidos }}</td>
+        <td>{{ r.whatsapp }}</td>
+        <td>{{ r.fecha|date:"d/m/Y" }}</td>
+        <td>{% if r.asistio %}Sí{% else %}No{% endif %}</td>
+        <td>
+            <a class="btn" href="{% url 'editar' r.id %}">Editar</a>
+            <form method="post" action="{% url 'eliminar' r.id %}" style="display:inline;" onsubmit="return confirm('¿Seguro que quieres eliminar este registro?');">
+    {% csrf_token %}
+    <button class="btn btn-rojo" type="submit">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="9">No hay registros todavía.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
